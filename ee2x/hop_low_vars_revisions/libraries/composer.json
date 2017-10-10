@@ -1,0 +1,7 @@
+
+					{
+						"require": {
+							"thing/thing": "0.1.*@dev",
+							}
+					}
+				
