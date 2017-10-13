@@ -13,19 +13,12 @@ class Hop_low_vars_revisions_mcp {
 		ee()->view->cp_page_title = $this->cp_module_name;
 
 		ee()->cp->set_breadcrumb($this->cp_base_url,$this->cp_module_name);
-
-		if (ee()->input->get('method') != 'showRevision') {
-			ee()->cp->set_right_nav(array(
-				'Home'		=> $this->cp_base_url.AMP.'method=index',
-				'Settings'	=> $this->cp_base_url.AMP.'method=settings'
-			));
-		}
-		
 	}
 
 	public function index()
 	{
-		return 'Hello World!';
+		$low_var_url = BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=low_variables';
+		return 'To view the variable revisions, go to <a href="'.$low_var_url.'">Low Variables</a> add-on.';
 	}
 
 	public function loadRevisions()
