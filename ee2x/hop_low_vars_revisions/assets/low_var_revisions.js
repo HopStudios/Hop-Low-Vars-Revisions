@@ -16,7 +16,7 @@ $('.hlvr-load-rev').on('click',function(e){
 
 		// Create a dropdown
 		let dropdownHtml = jQuery('<select/>', {
-			class: 'hlvr-show-rev',
+			class: 'hlvr-list-rev',
 		});
 		dropdownHtml.append('<option value="">View Revision History</option>'); //default option
 		// Add all revisions into the dropdown
@@ -24,11 +24,18 @@ $('.hlvr-load-rev').on('click',function(e){
 			dropdownHtml.append('<option value="'+value.revision_id+'">'+value.revision_desc+'</option>');
 		});
 
-		// Add chagne listener to the dropdown
-		dropdownHtml.on('change', function(e){
+		// Create a button
+		let buttonHTML = jQuery('<button/>', {
+			class: 'hlvr-show-rev',
+			type: 'button'
+		});
+		buttonHTML.append('Show');
+
+		// Add click listener to our button
+		buttonHTML.on('click', function(e){
 			// Open popup window (just like EE does for templates)
-			if ($(this).val() != '') {
-				window.open(EE.template.url + e, "Revision", "height=350, location=0, menubar=0, resizable=0, scrollbars=0, status=0, titlebar=0, toolbar=0, screenX=60, left=60, screenY=60, top=60");
+			if ($(this).prev().val() != '') {
+				window.open(hlvrShowUrl + '&rev_id=' + $(this).prev().val(), "Revision")
 			}
 		});
 
@@ -36,5 +43,7 @@ $('.hlvr-load-rev').on('click',function(e){
 		$tdVar.find('.hlvr-load-rev').remove();
 		// Add our dropdown
 		$tdVar.append(dropdownHtml);
+		// Add our button
+		$tdVar.append(buttonHTML);
 	});
 });
