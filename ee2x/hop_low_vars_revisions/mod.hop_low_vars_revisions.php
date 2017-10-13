@@ -20,10 +20,10 @@ class Hop_low_vars_revisions
 		// Include the class if it isn't included
 		if(!class_exists('Channel'))
 		{
-		// First party modules or plugins
-		require_once(APPPATH.'modules/channel/mod.channel.php');
-		// Third party would be
-		// require_once(PATH_THIRD.'package/mod.package.php');
+			// First party modules or plugins
+			require_once(APPPATH.'modules/channel/mod.channel.php');
+			// Third party would be
+			// require_once(PATH_THIRD.'package/mod.package.php');
 		}
 
 		ee()->TMPL->tagparams['fixed_order'] = $entrylist;
@@ -34,6 +34,6 @@ class Hop_low_vars_revisions
 		$C = new Channel();
 		$this->return_data = $C->entries();
 		return $this->return_data;
-		}
+	}
 
 }
