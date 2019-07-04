@@ -1,6 +1,6 @@
 
 // Add a button to each var to load the revisions
-$('#low-varlist .low-vargroup tbody td:first-child').append('<button class="hlvr-load-rev" type="button">Load revisions</button>');
+$('#low-varlist .low-vargroup > tbody >tr > td:first-child').append('<button class="hlvr-load-rev" type="button">Load revisions</button>');
 
 // Add click listener to all of our Load buttons
 $('.hlvr-load-rev').on('click',function(e){
@@ -16,7 +16,7 @@ $('.hlvr-load-rev').on('click',function(e){
 
 		// Create a dropdown
 		let dropdownHtml = jQuery('<select/>', {
-			class: 'hlvr-list-rev',
+			class: 'hlvr-list-rev'
 		});
 		dropdownHtml.append('<option value="">View Revision History</option>'); //default option
 		// Add all revisions into the dropdown

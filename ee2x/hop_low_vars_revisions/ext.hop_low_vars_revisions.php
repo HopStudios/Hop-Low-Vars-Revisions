@@ -41,6 +41,8 @@ class Hop_low_vars_revisions_ext
 
 	public function low_variables_post_save_action($var_ids, $skipped)
 	{
+		ee()->load->library('api'); ee()->api->instantiate('channel_fields');
+
 		// grab the variable values
 		$query = ee()->db->select("*")
 			->from("global_variables")
@@ -54,6 +56,47 @@ class Hop_low_vars_revisions_ext
 		foreach($result as $varitem) {
 			$key = $varitem['variable_id'];
 			$vardata[$key] = $varitem;
+			if ($varitem['variable_data'] == 1) { // Matrix fields
+				$variable_type = ee()->db->select('variable_type')
+							->from('low_variables')
+							->where('variable_id', $key)
+							->get()
+							->row()
+							->variable_type;
+				if ($variable_type == 'matrix') {
+					$var_id = $key;
+		            $query = ee()->db->select('col_id')
+		                ->where('var_id', $var_id)
+		                ->order_by('col_order')
+		                ->get('matrix_cols');
+
+		            $cols_array = [];
+		            if ($query->num_rows()) {
+		                $cols = $query->result_array();
+		                foreach ($cols as $col) {
+		                	$cols_array[] = 'col_id_' . $col['col_id'];
+		                }
+		            }
+		            $cols = implode(',', $cols_array);
+		            $temp_data = ee()->db->select('row_id, row_order,' . $cols)
+		                ->where('var_id', $var_id)
+		                ->order_by('row_order')
+		                ->get('matrix_data');
+
+		            if ($temp_data->num_rows() > 0) {
+		            	$temp_data = $temp_data->result_array();
+		            }
+
+		            $matrix_data = [];
+		            foreach ($temp_data as $row) {
+		            	$m_key = 'row_id_' . $row['row_id'];
+		            	unset($row['row_id']);
+                        $matrix_data[$m_key] = $row;
+		            }
+		            
+		            $vardata[$key]['variable_data'] = json_encode($matrix_data);
+				}
+			}
 		}
 
 		// for each variable ID saved
