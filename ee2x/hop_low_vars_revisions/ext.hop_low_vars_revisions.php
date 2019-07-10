@@ -90,7 +90,6 @@ class Hop_low_vars_revisions_ext
 		            $matrix_data = [];
 		            foreach ($temp_data as $row) {
 		            	$m_key = 'row_id_' . $row['row_id'];
-		            	unset($row['row_id']);
                         $matrix_data[$m_key] = $row;
 		            }
 		            
